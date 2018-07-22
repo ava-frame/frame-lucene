@@ -2,6 +2,10 @@ package com.ava.frame.lucene.core;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Bean;
+import org.springframework.stereotype.Component;
 
 import java.util.HashMap;
 import java.util.List;
@@ -9,11 +13,15 @@ import java.util.Map;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
-
+@Component
 public class DocumentContext {
 
     private static Log log = LogFactory.getLog(DocumentContext.class);
-
+//    lucene存放地址
+    @Value("${lucene.index.path}")
+    public String  indexPath;
+    @Autowired
+    public List<DataRunner> dataRunners;
     private static Map<Class, DocumentDefinition> classDocumentDefinitionMap = new HashMap<Class, DocumentDefinition>();
 
     private static ScheduledExecutorService scheduledExecutorService = Executors.newScheduledThreadPool(10);
@@ -127,7 +135,6 @@ public class DocumentContext {
         }
     }
 
-    public List<DataRunner> dataRunners;
 
     public List<DataRunner> getDataRunners() {
         return dataRunners;
@@ -137,7 +144,6 @@ public class DocumentContext {
         this.dataRunners = dataRunners;
     }
 
-    public String  indexPath;
 
     public String getIndexPath() {
         return indexPath;
